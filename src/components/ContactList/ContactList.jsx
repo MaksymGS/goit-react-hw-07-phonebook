@@ -4,10 +4,11 @@ import { ThreeDots } from 'react-loader-spinner';
 import { ContactItem } from './ContactItem/ContactItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/fetchingData';
+import { selectVisibleContacts } from 'redux/selectors';
 
 export const ContactList = () => {
-  const filter = useSelector(state => state.filter);
-  const { items, isLoading, error } = useSelector(state => state.contacts);
+  const { isLoading, error } = useSelector(state => state.contacts);
+  const getfilteredContacts = useSelector(selectVisibleContacts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,15 +18,6 @@ export const ContactList = () => {
   if (error) {
     Notiflix.Notify.failure(error);
   }
-
-  const getfilteredContacts =
-    filter === ''
-      ? items
-      : items.filter(({ name }) => {
-          const filterValue = filter.toLowerCase();
-          const filteredContacts = name.toLowerCase().includes(filterValue);
-          return filteredContacts;
-        });
 
   return (
     <>

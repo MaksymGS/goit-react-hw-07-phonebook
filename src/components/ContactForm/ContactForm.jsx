@@ -8,6 +8,7 @@ import {
 } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/fetchingData';
+import { selectContacts } from 'redux/selectors';
 
 const formSchema = Yup.object().shape({
   name: Yup.string()
@@ -19,7 +20,7 @@ const formSchema = Yup.object().shape({
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = objContact => {
     if (contacts.some(contact => contact.name === objContact.name)) {
